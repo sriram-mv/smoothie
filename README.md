@@ -1,7 +1,7 @@
 # smoothie
 Python Exception Based Callbacks
 
-Add your Callbacks to functions as decorators, that are slated to be called as per the Exception Raised.
+Add your callbacks to functions as decorators, that are slated to be called as per the Exception raised.
 
 ```python
 from smoothie.king import Dispenser
