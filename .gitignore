@@ -40,6 +40,9 @@ htmlcov/
 nosetests.xml
 coverage.xml
 
+#Pycharm
+.idea
+
 # Translations
 *.mo
 *.pot
