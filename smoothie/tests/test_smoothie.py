@@ -1,4 +1,3 @@
-from exceptions import IndexError, RuntimeError, TypeError
 import unittest
 
 from smoothie.king import Dispenser
