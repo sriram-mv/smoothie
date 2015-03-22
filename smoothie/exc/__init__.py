@@ -1,0 +1,2 @@
+class CallableCallbackException(Exception):
+    pass
