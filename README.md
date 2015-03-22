@@ -1,4 +1,4 @@
-# smoothie
+# smoothie [![Build Status](https://api.travis-ci.org/TheSriram/smoothie.png)](https://travis-ci.org/TheSriram/smoothie)
 Python Exception Based Callbacks
 
 Add your callbacks to functions as decorators, that are slated to be called as per the Exception raised.
