@@ -71,3 +71,43 @@ class SmoothieKingTest(unittest.TestCase):
 
         with self.assertRaises(IndexError):
             func_not_captured_exception()
+
+
+    def test_smoothie_class_function(self):
+
+        self.was_called = False
+
+        def err_callback(*args, **kwargs):
+            self.was_called = True
+            return kwargs
+
+        juice = Dispenser()
+
+        class Drinks(object):
+            def __init__(self):
+                self.drinks = []
+                pass
+
+            @juice.attach(exception=IndexError,
+                          callback=err_callback)
+            def drink_error_args(self, new_drink):
+                self.was_called = False
+                self.new_drink = new_drink
+                self.drinks.append(self.new_drink)
+                return self.drinks[4]
+
+        drinks_obj = Drinks()
+        returns = drinks_obj.drink_error_args('Water')
+        raised_exception = returns['ex']
+
+        self.assertTrue('exc_info' in returns)
+        self.assertEqual(raised_exception.__class__,
+                         IndexError)
+
+        with self.assertRaises(IndexError):
+            orig_drink_error_args = juice.original('drink_error_args')
+            # NOTE(TheSriram): The first argument needs to be self,
+            # since the original function was a member function of a
+            # class. It can also be any object that closely matches
+            # the spec of `self`
+            orig_drink_error_args(drinks_obj, 'Coffee')
