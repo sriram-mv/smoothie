@@ -103,8 +103,6 @@ class SmoothieKingTest(unittest.TestCase):
         self.assertTrue('exc_info' in returns)
         self.assertEqual(raised_exception.__class__,
                          IndexError)
-        self.assertEqual(raised_exception.message,
-                         'list index out of range')
 
         with self.assertRaises(IndexError):
             orig_drink_error_args = juice.original('drink_error_args')
