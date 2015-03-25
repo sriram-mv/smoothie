@@ -1,4 +1,6 @@
 from functools import wraps
+import traceback
+
 
 from smoothie.exc import CallableCallbackException
 
@@ -18,7 +20,8 @@ class Dispenser(object):
                     if not callable(callback):
                         raise CallableCallbackException
                     else:
-                        kwargs['ex'] = ex.__dict__
+                        kwargs['exc_info'] = traceback.format_exc()
+                        kwargs['ex'] = ex
                         # HACK(TheSriram): Remove the self arg
                         return callback(args[1:], **kwargs)
             self.map[func.__name__] = func
