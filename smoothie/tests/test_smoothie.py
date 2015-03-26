@@ -1,6 +1,8 @@
 import unittest
 
+from smoothie.exc import CallableCallbackException
 from smoothie.king import Dispenser
+
 
 class SmoothieKingTest(unittest.TestCase):
 
@@ -111,3 +113,18 @@ class SmoothieKingTest(unittest.TestCase):
             # class. It can also be any object that closely matches
             # the spec of `self`
             orig_drink_error_args(drinks_obj, 'Coffee')
+
+    def test_smoothie_bad_callback(self):
+
+        my_bad_callback = ("A Tuple?, Really?")
+        self.was_called = False
+
+        juice = Dispenser()
+
+        @juice.attach(exception=IndexError,
+                      callback=my_bad_callback)
+        def my_bad_function():
+            raise IndexError
+
+        with self.assertRaises(CallableCallbackException):
+            my_bad_function()
