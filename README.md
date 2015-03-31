@@ -10,6 +10,7 @@ def err_callback(*args, **kwargs):
     print("Error handled")
 
 juice = Dispenser()
+
 @juice.attach(exception=IndexError,
               callback=err_callback)
 def vending_machine():
