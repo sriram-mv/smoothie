@@ -1,4 +1,17 @@
 # smoothie [![Build Status](https://api.travis-ci.org/TheSriram/smoothie.png)](https://travis-ci.org/TheSriram/smoothie)
+
+------------
+Installation
+------------
+
+```bash
+    pip install smoothie  
+```
+
+-------
+Example
+-------
+
 Python Exception Based Callbacks
 
 Add your callbacks to functions as decorators, that are slated to be called as per the Exception raised.
@@ -20,10 +33,13 @@ def vending_machine():
 vending_machine()
 ```
 
+-----
+Tests
+-----
 To run the unit tests,
 
  ```bash
- pip install -r test-requirements.txt
- cd smoothie/tests
- nosetests -vs
+     pip install -r test-requirements.txt
+     cd smoothie/tests
+     nosetests -vs
  ```
