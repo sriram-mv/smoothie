@@ -1,16 +1,17 @@
 # smoothie [![Build Status](https://api.travis-ci.org/TheSriram/smoothie.png)](https://travis-ci.org/TheSriram/smoothie)
 
-------------
+
 Installation
-------------
+============
+
 
 ```bash
     pip install smoothie  
 ```
 
--------
+
 Example
--------
+========
 
 Python Exception Based Callbacks
 
@@ -33,9 +34,9 @@ def vending_machine():
 vending_machine()
 ```
 
------
+
 Tests
------
+=====
 To run the unit tests,
 
  ```bash
