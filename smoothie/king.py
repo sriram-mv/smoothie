@@ -9,12 +9,22 @@ class Dispenser(object):
     def __init__(self):
         self.map = {}
 
-    def attach(self, exception=Exception,callback=None):
+    def attach(self, exception=Exception, callback=None):
+        '''
+        decorator needed to be attached to functions or
+        class functions, in order to catch exceptions and
+        call specified callback function
+        :param exception: Exception
+        :param callback: function
+        :return: decorated function
+        '''
         def _attach_to_func(func):
+
             @wraps(func)
             def wrapper(*args, **kwargs):
+
                 try:
-                    return func(*args,**kwargs)
+                    return func(*args, **kwargs)
 
                 except exception as ex:
                     if not callable(callback):
@@ -24,6 +34,7 @@ class Dispenser(object):
                         kwargs['ex'] = ex
                         # HACK(TheSriram): Remove the self arg
                         return callback(args[1:], **kwargs)
+
             self.map[func.__name__] = func
 
             return wrapper
@@ -31,5 +42,4 @@ class Dispenser(object):
         return _attach_to_func
 
     def original(self, function):
-            return self.map[function]
-
+        return self.map[function]
