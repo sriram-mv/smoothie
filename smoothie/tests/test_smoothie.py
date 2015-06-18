@@ -18,10 +18,11 @@ class SmoothieKingTest(unittest.TestCase):
         @juice.attach(exception=IndexError,
                       callback=err_callback)
         def func_with_error():
-            drinks = ['Tea','Coffee', 'Water']
+            drinks = ['Tea', 'Coffee', 'Water']
             return drinks[4]
 
-        self.assertEqual(func_with_error(), "Error Handled")
+        self.assertEqual(func_with_error(),
+                         err_callback())
         self.assertTrue(self.was_called)
 
     def test_smoothie_multiple_func_exception(self):
@@ -49,9 +50,11 @@ class SmoothieKingTest(unittest.TestCase):
             else:
                 raise TypeError
 
-        self.assertEqual(func_with_error(2), "First Error Handled")
+        self.assertEqual(func_with_error(2),
+                         first_err_callback())
         self.assertTrue(self.first_was_called)
-        self.assertEqual(func_with_error(3), "Second Error Handled")
+        self.assertEqual(func_with_error(3),
+                         second_err_callback())
         self.assertTrue(self.second_was_called)
 
     def test_smoothie_stores_original(self):
@@ -67,6 +70,7 @@ class SmoothieKingTest(unittest.TestCase):
                       callback=err_callback)
         def func_with_error():
             sauce = ['Mustard', 'Ketchup']
+
             return sauce[3]
 
         func_not_captured_exception = juice.original(func_with_error.__name__)
@@ -86,6 +90,7 @@ class SmoothieKingTest(unittest.TestCase):
         juice = Dispenser()
 
         class Drinks(object):
+
             def __init__(self):
                 self.drinks = []
                 pass
@@ -128,3 +133,27 @@ class SmoothieKingTest(unittest.TestCase):
 
         with self.assertRaises(CallableCallbackException):
             my_bad_function()
+
+    def test_continious_exception_based_callback(self):
+
+        juice = Dispenser()
+        self.was_called = False
+
+        def my_chain(*args, **kwargs):
+            # NOTE(TheSriram): A chain of callbacks
+            # TODO(TheSriram): exception chaining in kwargs
+            self.was_called = True
+            return True
+
+        @juice.attach(exception=IndexError,
+                      callback=my_chain)
+        def my_callback(*args, **kwargs):
+            raise IndexError
+
+        @juice.attach(exception=RuntimeError,
+                      callback=my_callback)
+        def my_callback():
+            raise RuntimeError
+
+        self.assertTrue(my_callback())
+        self.assertTrue(self.was_called)
